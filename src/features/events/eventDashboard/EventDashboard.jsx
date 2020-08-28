@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import { Grid } from 'semantic-ui-react'
 import EventList from './EventList'
+import EventForm from '../eventForm/EventForm'
 
 export default function EventDashboard() {
   return (
@@ -11,7 +12,7 @@ export default function EventDashboard() {
         </Grid.Column>
 
         <Grid.Column width={6}>
-          <h1>Right Column</h1>
+          <EventForm />
         </Grid.Column>
       </Grid>
 
