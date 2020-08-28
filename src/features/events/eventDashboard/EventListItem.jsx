@@ -2,15 +2,15 @@ import React from 'react'
 import { Segment, Item, Icon, List, Button } from 'semantic-ui-react'
 import EventListAttendee from './EventListAttendee'
 
-export default function EventListItem({ event }) {
+export default function EventListItem({ event, selectEvent, deleteEvent }) {
   return (
     <Segment.Group>
       <Segment>
         <Item.Group unstackable>
           <Item>
-            <Item.Image size="tiny" circular src={event.hostPhotoURL} />
+            <Item.Image size='tiny' circular src={event.hostPhotoURL} />
 
-            <Item.Content verticalAlign="middle">
+            <Item.Content verticalAlign='middle'>
               <Item.Header content={event.title} />
               <Item.Description>Hosted by {event.hostedBy}</Item.Description>
             </Item.Content>
@@ -20,8 +20,8 @@ export default function EventListItem({ event }) {
 
       <Segment>
         <span>
-          <Icon name="clock" /> {event.date}
-          <Icon name="marker" /> {event.venue}
+          <Icon name='clock' /> {event.date}
+          <Icon name='marker' /> {event.venue}
         </span>
       </Segment>
 
@@ -36,7 +36,20 @@ export default function EventListItem({ event }) {
 
       <Segment clearing>
         <div>{event.description}</div>
-        <Button size="mini" color="teal" floated="right" content="View" />
+        <Button
+          onClick={() => selectEvent(event)}
+          size='mini'
+          color='teal'
+          floated='right'
+          content='View'
+        />
+        <Button
+          onClick={() => deleteEvent(event.id)}
+          size='mini'
+          color='red'
+          floated='right'
+          content='Delete'
+        />
       </Segment>
     </Segment.Group>
   )
