@@ -11,12 +11,7 @@ import App from './app/layout/App'
 const rootEl = document.getElementById('root')
 
 function render() {
-  ReactDOM.render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>,
-    rootEl
-  )
+  ReactDOM.render(<App />, rootEl)
 }
 
 if (module.hot) {

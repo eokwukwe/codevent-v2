@@ -2,17 +2,17 @@ import React from 'react'
 import { Segment, Item, Icon, List, Button } from 'semantic-ui-react'
 import EventListAttendee from './EventListAttendee'
 
-export default function EventListItem() {
+export default function EventListItem({ event }) {
   return (
     <Segment.Group>
       <Segment>
         <Item.Group unstackable>
           <Item>
-            <Item.Image size="tiny" circular src="/assets/user.png" />
+            <Item.Image size="tiny" circular src={event.hostPhotoURL} />
 
             <Item.Content verticalAlign="middle">
-              <Item.Header content="Event Title" />
-              <Item.Description>Hosted by Bovb</Item.Description>
+              <Item.Header content={event.title} />
+              <Item.Description>Hosted by {event.hostedBy}</Item.Description>
             </Item.Content>
           </Item>
         </Item.Group>
@@ -20,21 +20,22 @@ export default function EventListItem() {
 
       <Segment>
         <span>
-          <Icon name="clock" /> Date
-          <Icon name="marker" /> Venu
+          <Icon name="clock" /> {event.date}
+          <Icon name="marker" /> {event.venue}
         </span>
       </Segment>
 
       <Segment secondary>
         <List horizontal>
-          <EventListAttendee />
-          <EventListAttendee />
-          <EventListAttendee />
+          {event.attendees &&
+            event.attendees.map(attendee => (
+              <EventListAttendee key={attendee.id} attendee={attendee} />
+            ))}
         </List>
       </Segment>
 
       <Segment clearing>
-        <div>Description</div>
+        <div>{event.description}</div>
         <Button size="mini" color="teal" floated="right" content="View" />
       </Segment>
     </Segment.Group>
