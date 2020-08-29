@@ -2,7 +2,7 @@ import React, { Fragment, useState } from 'react'
 import { Grid } from 'semantic-ui-react'
 
 import EventList from './EventList'
-import { sampleData } from '../../../app/api/data'
+import { sampleData } from 'app/api/data'
 
 export default function EventDashboard() {
   const [events, setEvents] = useState(sampleData)
