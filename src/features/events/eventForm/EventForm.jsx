@@ -1,14 +1,18 @@
 import React, { useState } from 'react'
 import cuid from 'cuid'
-import {Link} from 'react-router-dom'
-import { Segment, Header, Form, Button, Grid } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import {Segment, Header, Form, Button, Grid} from 'semantic-ui-react'
 
-export default function EventForm({
-  setFormOpen,
-  createEvent,
-  selectedEvent,
-  updateEvent
-}) {
+import { updateEvent, createEvent } from '../eventActions'
+
+export default function EventForm({ match, history }) {
+  const dispatch = useDispatch()
+
+  const selectedEvent = useSelector(state =>
+    state.events.events.find(event => event.id === match.params.id)
+  )
+
   const initialValues = selectedEvent ?? {
     date: '',
     city: '',
@@ -27,16 +31,18 @@ export default function EventForm({
 
   function handleFormSubmit() {
     selectedEvent
-      ? updateEvent({ ...selectedEvent, ...values })
-      : createEvent({
-          ...values,
-          id: cuid(),
-          hostedBy: 'Bob Mandy',
-          hostPhotoURL: '/assets/user.png',
-          attendees: []
-        })
+      ? dispatch(updateEvent({ ...selectedEvent, ...values }))
+      : dispatch(
+          createEvent({
+            ...values,
+            id: cuid(),
+            hostedBy: 'Bob Mandy',
+            hostPhotoURL: '/assets/user.png',
+            attendees: []
+          })
+        )
 
-    setFormOpen(false)
+    history.push('/events')
   }
 
   return (

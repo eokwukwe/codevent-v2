@@ -1,7 +1,7 @@
 import React from 'react'
 import EventListItem from './EventListItem'
 
-export default function EventList({ events, selectEvent, deleteEvent }) {
+export default function EventList({ events }) {
   return (
     <>
       {events &&
@@ -9,8 +9,6 @@ export default function EventList({ events, selectEvent, deleteEvent }) {
           <EventListItem
             key={event.id}
             event={event}
-            selectEvent={selectEvent}
-            deleteEvent={deleteEvent}
           />
         ))}
     </>
