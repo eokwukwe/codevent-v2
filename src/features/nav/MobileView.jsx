@@ -13,7 +13,7 @@ function MobileView({ children, getWidth, authenticated, signOut, setAuthenticat
   return (
     <Responsive as={Sidebar.Pushable} getWidth={getWidth} maxWidth={Responsive.onlyMobile.maxWidth}>
       <Sidebar
-        width='wide'
+        width='thin'
         as={Menu}
         animation='overlay'
         inverted

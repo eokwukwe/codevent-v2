@@ -16,13 +16,13 @@ const eventImageTextStyle = {
   color: 'white'
 }
 
-export default function EventDetailedHeader() {
+export default function EventDetailedHeader({event}) {
   const isMobile = window.innerWidth <= 767
 
   return (
     <Segment.Group>
       <Segment basic attached='top' style={{ padding: '0' }}>
-        <Image src={`/assets/categoryImages/drinks.jpg`} fluid style={eventImageStyle} />
+        <Image src={`/assets/categoryImages/${event.category}.jpg`} fluid style={eventImageStyle} />
 
         <Segment basic style={eventImageTextStyle}>
           <Item.Group>
@@ -30,16 +30,16 @@ export default function EventDetailedHeader() {
               <Item.Content>
                 <Header
                   size='huge'
-                  content='Event Title'
+                  content={event.title}
                   style={{
                     color: 'white',
                     textTransform: 'capitalize',
                     fontSize: isMobile ? '1.5rem' : '2rem'
                   }}
                 />
-                <p>Event Date</p>
+                <p>{event.date}</p>
                 <p>
-                  Hosted by <strong>Bob</strong>
+                  Hosted by <strong>{event.hostedBy}</strong>
                 </p>
               </Item.Content>
             </Item>
@@ -56,7 +56,7 @@ export default function EventDetailedHeader() {
           JOIN THIS EVENT
         </Button>
 
-        <Button as={Link} to={`/edit/${1}`} compact size='mini' color='orange' floated='right'>
+        <Button as={Link} to={`/edit/${event.id}`} compact size='mini' color='orange' floated='right'>
           Edit Event
         </Button>
       </Segment>

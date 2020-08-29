@@ -1,12 +1,11 @@
-import React, { Fragment, useState } from 'react'
+import React from 'react'
 import { Grid } from 'semantic-ui-react'
+import { useSelector } from 'react-redux'
 
 import EventList from './EventList'
-import { sampleData } from 'app/api/data'
 
 export default function EventDashboard() {
-  const [events, setEvents] = useState(sampleData)
-
+  const { events } = useSelector(state => state.events)
   // function handleCreateEvent(event) {
   //   setEvents([...events, event])
   // }
@@ -16,11 +15,11 @@ export default function EventDashboard() {
   // }
 
   function handleDeleteEvent(eventId) {
-    setEvents(events.filter(evt => evt.id !== eventId))
+    // setEvents(events.filter(evt => evt.id !== eventId))
   }
 
   return (
-    <Fragment>
+    <>
       <Grid stackable reversed='mobile' columns={2}>
         <Grid.Column width={10}>
           <EventList events={events} deleteEvent={handleDeleteEvent} />
@@ -36,6 +35,6 @@ export default function EventDashboard() {
           <h1>Another Column</h1>
         </Grid.Column>
       </Grid> */}
-    </Fragment>
+    </>
   )
 }

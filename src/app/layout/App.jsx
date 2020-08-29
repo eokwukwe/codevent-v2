@@ -23,11 +23,11 @@ function App() {
               <Route exact path={['/createEvent', '/edit/:id']} component={EventForm} />
             </Container> */}
             <ViewContainer>
-            <Container className='main'>
-              <Route exact path='/events' component={EventDashboard} />
-              <Route exact path='/events/:id' component={EventDetailedPage} />
-              <Route exact path={['/createEvent', '/edit/:id']} component={EventForm} />
-            </Container>
+              <Container className='main'>
+                <Route exact path='/events' component={EventDashboard} />
+                <Route exact path='/events/:id' component={EventDetailedPage} />
+                <Route exact path={['/createEvent', '/edit/:id']} component={EventForm} />
+              </Container>
             </ViewContainer>
           </>
         )}
