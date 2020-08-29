@@ -1,5 +1,6 @@
 import React from 'react'
-import { Segment, Item } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
+import { Segment, List, Label, Image } from 'semantic-ui-react'
 
 export default function EventDetailedSidebar() {
   return (
@@ -15,24 +16,28 @@ export default function EventDetailedSidebar() {
         2 People Going
       </Segment>
       <Segment attached>
-        <Item.Group relaxed divided>
-          <Item style={{ position: 'relative' }}>
-            <Item.Image size='mini' src='/assets/user.png' />
-            <Item.Content verticalAlign='middle'>
-              <Item.Header as='h4'>
-                <span>Tom</span>
-              </Item.Header>
-            </Item.Content>
-          </Item>
-          <Item style={{ position: 'relative' }}>
-            <Item.Image size='mini' src='/assets/user.png' />
-            <Item.Content verticalAlign='middle'>
-              <Item.Header as='h4'>
-                <span>Bob</span>
-              </Item.Header>
-            </Item.Content>
-          </Item>
-        </Item.Group>
+        <List relaxed divided verticalAlign='middle'>
+          <List.Item key={1} style={{ position: 'relative' }}>
+            <Label style={{ position: 'absolute' }} color='orange' ribbon='right'>
+              Host
+            </Label>
+            <Image size='mini' circular src='/assets/user.png' />
+            <List.Content>
+              <List.Header as='h4'>
+                <Link to={'/#'}>Tom</Link>
+              </List.Header>
+            </List.Content>
+          </List.Item>
+
+          <List.Item key={1} style={{ position: 'relative' }}>
+            <Image size='mini' circular src='/assets/user.png' />
+            <List.Content>
+              <List.Header as='h4'>
+                <Link to={'/#'}>Bob</Link>
+              </List.Header>
+            </List.Content>
+          </List.Item>
+        </List>
       </Segment>
     </>
   )

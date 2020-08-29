@@ -2,11 +2,11 @@ import React from 'react'
 import { Route } from 'react-router-dom'
 import { Container } from 'semantic-ui-react'
 
-import NavBar from '../../features/nav/NavBar'
 import HomePage from '../../features/home/HomePage'
+import ViewContainer from '../../features/nav/ViewContainer'
+import EventForm from '../../features/events/eventForm/EventForm'
 import EventDashboard from '../../features/events/eventDashboard/EventDashboard'
 import EventDetailedPage from '../../features/events/eventDetailed/EventDetailedPage'
-import EventForm from '../../features/events/eventForm/EventForm'
 
 function App() {
   return (
@@ -16,12 +16,19 @@ function App() {
         path={'/(.+)'}
         render={() => (
           <>
-            <NavBar />
+            {/* <NavBar />
+            <Container className='main'>
+              <Route exact path='/events' component={EventDashboard} />
+              <Route exact path='/events/:id' component={EventDetailedPage} />
+              <Route exact path={['/createEvent', '/edit/:id']} component={EventForm} />
+            </Container> */}
+            <ViewContainer>
             <Container className='main'>
               <Route exact path='/events' component={EventDashboard} />
               <Route exact path='/events/:id' component={EventDetailedPage} />
               <Route exact path={['/createEvent', '/edit/:id']} component={EventForm} />
             </Container>
+            </ViewContainer>
           </>
         )}
       />

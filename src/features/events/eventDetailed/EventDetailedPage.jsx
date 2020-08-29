@@ -8,7 +8,7 @@ import EventDetailedSidebar from './EventDetailedSidebar'
 
 export default function EventDetailedPage() {
   return (
-    <Grid>
+    <Grid stackable reversed='mobile' columns={2}>
       <Grid.Column width={10}>
         <EventDetailedHeader />
         <EventDetailedInfo />
