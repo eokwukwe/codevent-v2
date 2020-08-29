@@ -1,17 +1,12 @@
 import React from 'react'
 import { Segment, Image, Item, Header, Button } from 'semantic-ui-react'
+import {Link} from 'react-router-dom'
 
 const eventImageStyle = {
   filter: 'brightness(30%)'
 }
 
 const eventImageTextStyle = {
-  // position: 'absolute',
-  // bottom: '5%',
-  // left: '5%',
-  // width: '100%',
-  // height: 'auto',
-  // color: 'white'
   position: 'absolute',
   left: '50%',
   top: '50%',
@@ -61,7 +56,7 @@ export default function EventDetailedHeader() {
           JOIN THIS EVENT
         </Button>
 
-        <Button compact size='mini' color='orange' floated='right'>
+        <Button as={Link} to={`/edit/${1}`} compact size='mini' color='orange' floated='right'>
           Edit Event
         </Button>
       </Segment>

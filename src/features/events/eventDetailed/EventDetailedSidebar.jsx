@@ -1,6 +1,5 @@
 import React from 'react'
 import { Segment, Item } from 'semantic-ui-react'
-import { Link } from 'react-router-dom'
 
 export default function EventDetailedSidebar() {
   return (
