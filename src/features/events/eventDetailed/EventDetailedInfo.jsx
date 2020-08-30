@@ -38,7 +38,7 @@ export default function EventDetailedInfo({ event }) {
             <Icon size='large' color='teal' name='marker' />
             <List.Content>
               <List.Description>
-                <span>{event.venue}</span>
+                <span>{event.venue.address}</span>
               </List.Description>
             </List.Content>
           </List.Item>

@@ -7,7 +7,7 @@ export default function HomePage({history}) {
       <Container text>
         <Header as='h1' inverted>
           <Image size='massive' src='/assets/logo128.png' alt='logo' style={{ marginBottom: 12 }} />
-          CodEvent
+          CodEvents
         </Header>
         <Button onClick={() => history.push('/events')} size='huge' inverted>
           Get started
