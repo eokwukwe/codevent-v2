@@ -49,7 +49,7 @@ export default function EventDetailedInfo({ event }) {
         </List>
       </Segment>
 
-      {mapOpen && <EventDetailedMap latLng={event.venue.latlng} />}
+      {mapOpen && <EventDetailedMap latLng={event.venue.latLng} />}
     </Segment.Group>
   )
 }
