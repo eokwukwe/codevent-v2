@@ -50,6 +50,7 @@ export default function EventListItem({ event }) {
           color='teal'
           floated='right'
           content='View'
+          style={{marginLeft: '0.6rem'}}
         />
         <Button
           onClick={() => dispatch(deleteEvent(event.id))}

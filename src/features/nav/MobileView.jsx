@@ -5,7 +5,7 @@ import { Icon, Menu, Sidebar, Responsive, Container } from 'semantic-ui-react'
 import SignedInMenu from './SignedInMenu'
 import SignedOutMenu from './SignedOutMenu'
 
-function MobileView({ children, getWidth, authenticated, signOut, setAuthenticated }) {
+function MobileView({ children, getWidth, authenticated }) {
   const [sidebarOpened, setSidebarOpen] = useState(false)
   const handleSidebarHide = () => setSidebarOpen(false)
   const handleToggle = () => setSidebarOpen(true)
@@ -54,9 +54,9 @@ function MobileView({ children, getWidth, authenticated, signOut, setAuthenticat
             </Menu.Item>
 
             {authenticated ? (
-              <SignedInMenu signOut={signOut} />
+              <SignedInMenu />
             ) : (
-              <SignedOutMenu setAuthenticated={setAuthenticated} />
+              <SignedOutMenu />
             )}
           </Container>
         </Menu>

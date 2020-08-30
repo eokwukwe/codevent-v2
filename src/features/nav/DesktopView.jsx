@@ -5,7 +5,7 @@ import { Button, Container, Menu, Responsive } from 'semantic-ui-react'
 import SignedInMenu from './SignedInMenu'
 import SignedOutMenu from './SignedOutMenu'
 
-function DesktopView({ children, getWidth, authenticated, signOut, setAuthenticated }) {
+function DesktopView({ children, getWidth, authenticated }) {
   // const authenticated = auth.isLoaded && !auth.isEmpty
 
   return (
@@ -36,9 +36,9 @@ function DesktopView({ children, getWidth, authenticated, signOut, setAuthentica
           )}
 
           {authenticated ? (
-            <SignedInMenu signOut={signOut} />
+            <SignedInMenu />
           ) : (
-            <SignedOutMenu setAuthenticated={setAuthenticated} />
+            <SignedOutMenu />
           )}
         </Container>
       </Menu>

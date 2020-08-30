@@ -1,18 +1,13 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { useSelector } from 'react-redux'
 import { Responsive } from 'semantic-ui-react'
-import {withRouter, useHistory} from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
 import MobileView from './MobileView'
 import DesktopView from './DesktopView'
 
 function ViewContainer({ children }) {
-  const history = useHistory()
-  const [authenticated, setAuthenticated] = useState(false)
-
-  function handleSignOut() {
-    setAuthenticated(false)
-    history.push('/')
-  }
+  const { authenticated } = useSelector(state => state.auth)
 
   const getWidth = () => {
     const isSSR = typeof window === 'undefined'
@@ -26,8 +21,6 @@ function ViewContainer({ children }) {
         // register={handleRegister}
         getWidth={getWidth}
         authenticated={authenticated}
-        signOut={handleSignOut}
-        setAuthenticated={setAuthenticated}
         // auth={auth}
         // logout={handleSignedOut}
         // profile={profile}
@@ -40,8 +33,6 @@ function ViewContainer({ children }) {
         // register={handleRegister}
         getWidth={getWidth}
         authenticated={authenticated}
-        signOut={handleSignOut}
-        setAuthenticated={setAuthenticated}
         // auth={auth}
         // logout={handleSignedOut}
         // profile={profile}
