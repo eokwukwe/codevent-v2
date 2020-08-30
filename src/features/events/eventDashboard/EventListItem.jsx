@@ -1,4 +1,5 @@
 import React from 'react'
+import { format } from 'date-fns/esm'
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { Segment, Item, Icon, List, Button } from 'semantic-ui-react'
@@ -26,8 +27,8 @@ export default function EventListItem({ event }) {
 
       <Segment>
         <span>
-          <Icon name='clock' /> {event.date}
-          <Icon name='marker' /> {event.venue}
+          <Icon name='clock' /> {format(event.date, 'MMMM d, yyyy h:mm a')} <Icon name='marker' />{' '}
+          {event.venue}
         </span>
       </Segment>
 

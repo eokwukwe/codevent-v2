@@ -1,10 +1,17 @@
-import React, { useState } from 'react'
+import React from 'react'
+import * as Yup from 'yup'
 import cuid from 'cuid'
+import { Formik, Form } from 'formik'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import {Segment, Header, Form, Button, Grid} from 'semantic-ui-react'
+import { Segment, Header, Button, Grid } from 'semantic-ui-react'
 
+import TextArea from 'app/common/form/TextArea'
+import TextInput from 'app/common/form/TextInput'
+import SelectInput from 'app/common/form/SelectInput'
 import { updateEvent, createEvent } from '../eventActions'
+import { categoryData } from 'app/api/categoryOptions'
+import DateInput from 'app/common/form/DateInput'
 
 export default function EventForm({ match, history }) {
   const dispatch = useDispatch()
@@ -21,101 +28,85 @@ export default function EventForm({ match, history }) {
     category: '',
     description: ''
   }
-  const [values, setValues] = useState(initialValues)
 
-  function handleInputChange(e) {
-    const { name, value } = e.target
-
-    setValues({ ...values, [name]: value })
-  }
-
-  function handleFormSubmit() {
-    selectedEvent
-      ? dispatch(updateEvent({ ...selectedEvent, ...values }))
-      : dispatch(
-          createEvent({
-            ...values,
-            id: cuid(),
-            hostedBy: 'Bob Mandy',
-            hostPhotoURL: '/assets/user.png',
-            attendees: []
-          })
-        )
-
-    history.push('/events')
-  }
+  const validationSchema = Yup.object({
+    title: Yup.string().required('Please provide a title'),
+    category: Yup.string().required('Please provide a category'),
+    description: Yup.string().required('Please provide a description'),
+    venue: Yup.string().required('Please provide a venue'),
+    city: Yup.string().required('Please provide a city'),
+    date: Yup.date().required('Please provide a date')
+  })
 
   return (
     <Grid centered>
       <Grid.Column mobile={16} tablet={10} computer={7}>
         <Segment clearing>
-          <Header content={selectedEvent ? 'Edit Event' : 'Create Event'} />
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={values => {
+              selectedEvent
+                ? dispatch(updateEvent({ ...selectedEvent, ...values }))
+                : dispatch(
+                    createEvent({
+                      ...values,
+                      id: cuid(),
+                      hostedBy: 'Bob Mandy',
+                      hostPhotoURL: '/assets/user.png',
+                      attendees: []
+                    })
+                  )
 
-          <Form onSubmit={handleFormSubmit}>
-            <Form.Field>
-              <input
-                type='text'
-                value={values.title}
-                name='title'
-                placeholder='Title'
-                onChange={handleInputChange}
-              />
-            </Form.Field>
+              history.push('/events')
+            }}
+          >
+            {({ dirty, isValid, isSubmitting }) => (
+              <Form className='ui form'>
+                <Header sub color='teal' content='Event Details' />
 
-            <Form.Field>
-              <input
-                type='text'
-                value={values.category}
-                name='category'
-                placeholder='Category'
-                onChange={handleInputChange}
-              />
-            </Form.Field>
+                <TextInput name='title' placeholder='Title' />
 
-            <Form.Field>
-              <input
-                type='text'
-                value={values.description}
-                name='description'
-                placeholder='Description'
-                onChange={handleInputChange}
-              />
-            </Form.Field>
+                <SelectInput options={categoryData} name='category' placeholder='Category' />
 
-            <Form.Field>
-              <input
-                type='text'
-                value={values.city}
-                name='city'
-                placeholder='City'
-                onChange={handleInputChange}
-              />
-            </Form.Field>
+                <TextArea name='description' placeholder='Description' />
 
-            <Form.Field>
-              <input
-                type='text'
-                value={values.venue}
-                name='venue'
-                placeholder='Venue'
-                onChange={handleInputChange}
-              />
-            </Form.Field>
+                <Header sub color='teal' content='Event Location Details' />
 
-            <Form.Field>
-              <input
-                type='date'
-                value={values.date}
-                name='date'
-                placeholder='Date'
-                onChange={handleInputChange}
-              />
-            </Form.Field>
+                <TextInput name='city' placeholder='City' />
 
-            <Button size='mini' type='submit' floated='right' positive content='Submit' />
+                <TextInput name='venue' placeholder='Venue' />
 
-            <Button as={Link} to='/events' size='mini' floated='right' content='Cancel' />
-          </Form>
+                <DateInput
+                  name='date'
+                  placeholderText='Date'
+                  timeFormat='HH:mm'
+                  showTimeSelect
+                  timeCaption='time'
+                  dateFormat='MMMM d, yyyy h:mm a'
+                />
+
+                <Button
+                  size='mini'
+                  type='submit'
+                  floated='right'
+                  positive
+                  content='Submit'
+                  loading={isSubmitting}
+                  disabled={!isValid || !dirty || isSubmitting}
+                />
+
+                <Button
+                  as={Link}
+                  to='/events'
+                  size='mini'
+                  floated='right'
+                  content='Cancel'
+                  disabled={isSubmitting}
+                />
+              </Form>
+            )}
+          </Formik>
         </Segment>
       </Grid.Column>
     </Grid>

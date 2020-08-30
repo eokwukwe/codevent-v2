@@ -1,7 +1,8 @@
 import React from 'react'
+import { format } from 'date-fns'
 import { Segment, Button, Icon, List } from 'semantic-ui-react'
 
-export default function EventDetailedInfo({event}) {
+export default function EventDetailedInfo({ event }) {
   return (
     <Segment.Group>
       <Segment attached='top'>
@@ -19,7 +20,7 @@ export default function EventDetailedInfo({event}) {
             <Icon size='large' color='teal' name='calendar' />
             <List.Content>
               <List.Description>
-                <span>{event.date}</span>
+                <span>{format(event.date, 'MMMM d, yyyy h:mm a')}</span>
               </List.Description>
             </List.Content>
           </List.Item>

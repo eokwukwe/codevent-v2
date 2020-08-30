@@ -1,6 +1,7 @@
 import React from 'react'
+import { format } from 'date-fns'
+import { Link } from 'react-router-dom'
 import { Segment, Image, Item, Header, Button } from 'semantic-ui-react'
-import {Link} from 'react-router-dom'
 
 const eventImageStyle = {
   filter: 'brightness(30%)'
@@ -16,7 +17,7 @@ const eventImageTextStyle = {
   color: 'white'
 }
 
-export default function EventDetailedHeader({event}) {
+export default function EventDetailedHeader({ event }) {
   const isMobile = window.innerWidth <= 767
 
   return (
@@ -37,7 +38,7 @@ export default function EventDetailedHeader({event}) {
                     fontSize: isMobile ? '1.5rem' : '2rem'
                   }}
                 />
-                <p>{event.date}</p>
+                <p>{format(event.date, 'MMMM d, yyyy h:mm a')}</p>
                 <p>
                   Hosted by <strong>{event.hostedBy}</strong>
                 </p>
@@ -51,12 +52,19 @@ export default function EventDetailedHeader({event}) {
         <Button compact size='mini'>
           Cancel My Place
         </Button>
-        
+
         <Button compact size='mini' color='teal'>
           JOIN THIS EVENT
         </Button>
 
-        <Button as={Link} to={`/edit/${event.id}`} compact size='mini' color='orange' floated='right'>
+        <Button
+          as={Link}
+          to={`/edit/${event.id}`}
+          compact
+          size='mini'
+          color='orange'
+          floated='right'
+        >
           Edit Event
         </Button>
       </Segment>
