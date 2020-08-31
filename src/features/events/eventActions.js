@@ -9,12 +9,19 @@ export function loadEvents() {
     try {
       const events = await fetchSampleData()
 
-      dispatch({type: FETCH_EVENTS, payload: events})
-      
+      dispatch({ type: FETCH_EVENTS, payload: events })
+
       dispatch(asyncActionFinish())
     } catch (error) {
       dispatch(asyncActionError(error))
     }
+  }
+}
+
+export function listenToEvents(events) {
+  return {
+    type: FETCH_EVENTS,
+    payload: events
   }
 }
 
