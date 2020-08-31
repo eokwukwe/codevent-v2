@@ -1,5 +1,6 @@
 import React from 'react'
 import { Container } from 'semantic-ui-react'
+import {ToastContainer} from 'react-toastify'
 import { Route, useLocation } from 'react-router-dom'
 
 import HomePage from 'features/home/HomePage'
@@ -15,6 +16,10 @@ function App() {
   return (
     <>
       <ModalManager />
+      <ToastContainer
+        position='bottom-right'
+        hideProgressBar
+      />
       <Route exact path='/' component={HomePage} />
       <Route
         path={'/(.+)'}

@@ -3,9 +3,13 @@ import { Grid } from 'semantic-ui-react'
 import { useSelector } from 'react-redux'
 
 import EventList from './EventList'
+import EventListItemPlaceholder from './EventListItemPlaceholder'
+import EventFilters from './EventFilters'
 
 export default function EventDashboard() {
   const { events } = useSelector(state => state.events)
+  const { loading } = useSelector(state => state.async)
+
   // function handleCreateEvent(event) {
   //   setEvents([...events, event])
   // }
@@ -22,14 +26,19 @@ export default function EventDashboard() {
     <>
       <Grid stackable reversed='mobile' columns={2}>
         <Grid.Column width={10}>
+          {loading && (
+            <>
+              <EventListItemPlaceholder />
+              <EventListItemPlaceholder />
+            </>
+          )}
           <EventList events={events} deleteEvent={handleDeleteEvent} />
         </Grid.Column>
 
         <Grid.Column width={6}>
-          <h2>Event Filter</h2>
+          <EventFilters />
         </Grid.Column>
       </Grid>
-
       {/* <Grid>
         <Grid.Column mobile={16} tablet={10} computer={10}>
           <h1>Another Column</h1>

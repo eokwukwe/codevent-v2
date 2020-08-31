@@ -1,6 +1,6 @@
 import React from 'react'
-import { Segment, Icon } from 'semantic-ui-react'
 import GoogleMapReact from 'google-map-react'
+import { Segment, Icon } from 'semantic-ui-react'
 
 function Marker() {
   return <Icon name='marker' size='big' color='red' />

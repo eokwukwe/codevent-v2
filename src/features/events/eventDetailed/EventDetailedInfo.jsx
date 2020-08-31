@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { format } from 'date-fns'
-import { Segment, Button, Icon, List } from 'semantic-ui-react'
+import {Segment, Button, Icon, List} from 'semantic-ui-react'
+
 import EventDetailedMap from './EventDetailedMap'
 
 export default function EventDetailedInfo({ event }) {

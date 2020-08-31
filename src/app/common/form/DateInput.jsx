@@ -1,6 +1,6 @@
 import React from 'react'
-import { useField, useFormikContext } from 'formik'
 import DatePicker from 'react-datepicker'
+import { useField, useFormikContext } from 'formik'
 import { FormField, Label } from 'semantic-ui-react'
 
 import 'react-datepicker/dist/react-datepicker.css'

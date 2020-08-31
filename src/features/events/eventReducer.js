@@ -1,12 +1,16 @@
-import { sampleData } from 'app/api/data'
-import { CREATE_EVENT, UPDATE_EVENT, DELETE_EVENT } from './eventConstants'
+import { CREATE_EVENT, UPDATE_EVENT, DELETE_EVENT, FETCH_EVENTS } from './eventConstants'
 
 const initialState = {
-  events: sampleData
+  events: []
 }
 
 export default function eventReducer(state = initialState, { type, payload }) {
   switch (type) {
+    case FETCH_EVENTS:
+      return {
+        ...state,
+        events: payload
+      }
     case CREATE_EVENT:
       return {
         ...state,
