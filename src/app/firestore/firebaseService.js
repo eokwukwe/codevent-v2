@@ -1,4 +1,5 @@
 import firebase from '../config/firebase'
+import {setUserProfileData} from './firestoreService'
 
 export function signInWithEmail(creds) {
   return firebase.auth().signInWithEmailAndPassword(creds.email, creds.password)
@@ -8,9 +9,11 @@ export async function registerInFirebase(creds) {
   try {
     const result = await firebase.auth().createUserWithEmailAndPassword(creds.email, creds.password)
 
-    return await result.user.updateProfile({
+    await result.user.updateProfile({
       displayName: creds.displayName
     })
+
+    return await setUserProfileData(result.user)
   } catch (error) {
     throw error
   }
@@ -19,3 +22,4 @@ export async function registerInFirebase(creds) {
 export function signOutFirebase() {
   return firebase.auth().signOut()
 }
+
