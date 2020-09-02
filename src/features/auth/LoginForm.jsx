@@ -2,12 +2,12 @@ import React from 'react'
 import * as Yup from 'yup'
 import { Formik, Form } from 'formik'
 import { useDispatch } from 'react-redux'
-import { Button } from 'semantic-ui-react'
+import { Button, Label } from 'semantic-ui-react'
 
-import { signInUser } from './authActions'
 import TextInput from 'app/common/form/TextInput'
 import ModalWrapper from 'app/common/modals/ModalWrapper'
 import { closeModal } from 'app/common/modals/modalReducer'
+import { signInWithEmail } from 'app/firestore/firebaseService'
 
 export default function LoginForm() {
   const dispatch = useDispatch()
@@ -20,17 +20,38 @@ export default function LoginForm() {
           email: Yup.string().required().email(),
           password: Yup.string().required()
         })}
-        onSubmit={(values, { setSubmitting }) => {
-          dispatch(signInUser(values))
-          setSubmitting(false)
-          dispatch(closeModal())
+        onSubmit={async (values, { setSubmitting, setErrors }) => {
+          try {
+            await signInWithEmail(values)
+            setSubmitting(false)
+            dispatch(closeModal())
+          } catch (error) {
+            setErrors({ auth: 'Invalid credentials' })
+            setSubmitting(false)
+          }
         }}
       >
-        {({ dirty, isValid, isSubmitting }) => (
+        {({ dirty, isValid, isSubmitting, errors }) => (
           <Form className='ui form'>
-            <TextInput name='email' placeholder='Enter your email' />
+            <TextInput
+              type='email'
+              name='email'
+              placeholder='Enter your email'
+            />
 
-            <TextInput name='password' placeholder='Enter your password' />
+            <TextInput
+              type='password'
+              name='password'
+              placeholder='Enter your password'
+            />
+
+            {errors.auth && (
+              <Label
+                basic color='red'
+                content={errors.auth}
+                style={{marginBottom: 10}}
+              />
+            )}
 
             <Button
               fluid

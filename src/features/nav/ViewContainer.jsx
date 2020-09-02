@@ -22,7 +22,6 @@ function ViewContainer({ children }) {
         getWidth={getWidth}
         authenticated={authenticated}
         // auth={auth}
-        // logout={handleSignedOut}
         // profile={profile}
       >
         {children}
@@ -34,7 +33,6 @@ function ViewContainer({ children }) {
         getWidth={getWidth}
         authenticated={authenticated}
         // auth={auth}
-        // logout={handleSignedOut}
         // profile={profile}
       >
         {children}
