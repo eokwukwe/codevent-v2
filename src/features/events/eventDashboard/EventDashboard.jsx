@@ -1,36 +1,24 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Grid } from 'semantic-ui-react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import EventList from './EventList'
 import EventFilters from './EventFilters'
-import EventListItemPlaceholder from './EventListItemPlaceholder'
-import { getEvents, dataFromSnapshot } from 'app/firestore/firestoreService'
 import { listenToEvents } from '../eventActions'
-import { asyncActionStart, asyncActionFinish, asyncActionError } from 'app/async/asyncReducer'
+import EventListItemPlaceholder from './EventListItemPlaceholder'
+import useFirestoreCollection from 'app/hooks/useFirestoreCollection'
+import { listenToEventsFromFirestore } from 'app/firestore/firestoreService'
 
 export default function EventDashboard() {
   const dispatch = useDispatch()
   const { events } = useSelector(state => state.events)
   const { loading } = useSelector(state => state.async)
 
-  useEffect(() => {
-    dispatch(asyncActionStart())
-
-    const unsubscribe = getEvents({
-      next: snapshot => {
-        dispatch(listenToEvents(snapshot.docs.map(doc => dataFromSnapshot(doc))))
-        dispatch(asyncActionFinish())
-      },
-      error: error => {
-        console.log(error)
-        dispatch(asyncActionError(error))
-      },
-      complete: () => console.log('You will never see this message')
-    })
-
-    return unsubscribe
-  }, [dispatch])
+  useFirestoreCollection({
+    query: () => listenToEventsFromFirestore(),
+    data: events => dispatch(listenToEvents(events)),
+    deps: [dispatch]
+  })
 
   // function handleCreateEvent(event) {
   //   setEvents([...events, event])

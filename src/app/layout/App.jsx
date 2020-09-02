@@ -1,12 +1,13 @@
 import React from 'react'
 import { Container } from 'semantic-ui-react'
-import {ToastContainer} from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 import { Route, useLocation } from 'react-router-dom'
 
 import HomePage from 'features/home/HomePage'
 import ViewContainer from 'features/nav/ViewContainer'
 import ModalManager from 'app/common/modals/ModalManager'
 import EventForm from 'features/events/eventForm/EventForm'
+import ErrorComponent from 'app/common/errors/ErrorComponent'
 import EventDashboard from 'features/events/eventDashboard/EventDashboard'
 import EventDetailedPage from 'features/events/eventDetailed/EventDetailedPage'
 
@@ -16,10 +17,7 @@ function App() {
   return (
     <>
       <ModalManager />
-      <ToastContainer
-        position='bottom-right'
-        hideProgressBar
-      />
+      <ToastContainer position='bottom-right' hideProgressBar />
       <Route exact path='/' component={HomePage} />
       <Route
         path={'/(.+)'}
@@ -36,6 +34,7 @@ function App() {
                 <Route exact path='/events' component={EventDashboard} />
                 <Route exact path='/events/:id' component={EventDetailedPage} />
                 <Route exact path={['/createEvent', '/edit/:id']} component={EventForm} key={key} />
+                <Route exact path='/error' component={ErrorComponent} />
               </Container>
             </ViewContainer>
           </>
