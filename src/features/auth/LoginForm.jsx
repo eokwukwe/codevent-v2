@@ -2,8 +2,9 @@ import React from 'react'
 import * as Yup from 'yup'
 import { Formik, Form } from 'formik'
 import { useDispatch } from 'react-redux'
-import { Button, Label } from 'semantic-ui-react'
+import { Button, Label, Divider } from 'semantic-ui-react'
 
+import SocialLogin from './SocialLogin'
 import TextInput from 'app/common/form/TextInput'
 import ModalWrapper from 'app/common/modals/ModalWrapper'
 import { closeModal } from 'app/common/modals/modalReducer'
@@ -62,6 +63,9 @@ export default function LoginForm() {
               loading={isSubmitting}
               disabled={!dirty || !isValid || isSubmitting}
             />
+
+            <Divider horizontal>Or</Divider>
+            <SocialLogin/>
           </Form>
         )}
       </Formik>
