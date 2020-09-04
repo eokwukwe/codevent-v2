@@ -182,3 +182,15 @@ body {
   border: none;
   box-shadow: 0 1px 2px 0 rgba(34, 36, 38, .15);
 }
+
+@media only screen and (max-width: 767px) {
+  .ui.menu:not(.vertical) .item {
+    font-size: small;
+  }
+}
+
+@media only screen and (max-width: 410px) {
+  .ui.menu:not(.vertical) .item {
+    font-size: smaller;
+  }
+}

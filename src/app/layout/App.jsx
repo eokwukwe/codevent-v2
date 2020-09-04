@@ -13,6 +13,7 @@ import EventForm from 'features/events/eventForm/EventForm'
 import ErrorComponent from 'app/common/errors/ErrorComponent'
 import EventDashboard from 'features/events/eventDashboard/EventDashboard'
 import EventDetailedPage from 'features/events/eventDetailed/EventDetailedPage'
+import ProfilePage from 'features/profiles/profilePage/ProfilePage'
 
 function App() {
   const { key } = useLocation()
@@ -41,6 +42,7 @@ function App() {
                 <Route exact path='/events/:id' component={EventDetailedPage} />
                 <Route exact path={['/createEvent', '/edit/:id']} component={EventForm} key={key} />
                 <Route exact path='/account' component={AccountPage} />
+                <Route exact path='/profile/:id' component={ProfilePage} />
                 <Route exact path='/error' component={ErrorComponent} />
               </Container>
             </ViewContainer>
