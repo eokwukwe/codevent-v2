@@ -2,7 +2,7 @@ import React from 'react'
 import { Segment, Grid, Item, Header, Statistic, Divider, Reveal, Button } from 'semantic-ui-react'
 
 export default function ProfileHeader({ profile, isCurrentUser }) {
-  const imgSize = window.innerWidth > 767 ? 'small' : 'tiny'
+  const breakpoint = window.innerWidth
 
   return (
     <Segment>
@@ -10,7 +10,11 @@ export default function ProfileHeader({ profile, isCurrentUser }) {
         <Grid.Column width={12}>
           <Item.Group>
             <Item>
-              <Item.Image avatar size={imgSize} src={profile.photoURL || '/assets/user.png'} />
+              {breakpoint < 768 ? (
+                <Item.Image avatar size='mini' src={profile.photoURL || '/assets/user.png'} />
+              ) : (
+                <Item.Image avatar size='small' src={profile.photoURL || '/assets/user.png'} />
+              )}
               <Item.Content verticalAlign='middle'>
                 <Header
                   as='h1'
