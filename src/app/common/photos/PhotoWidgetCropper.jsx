@@ -5,8 +5,6 @@ import 'cropperjs/dist/cropper.css'
 export default function PhotoWidgetCropper({ setImage, imagePreview }) {
   const cropper = useRef(null)
 
-  console.log({cropper});
-
   function cropImage() {
     if (typeof cropper.current.cropper.getCroppedCanvas() === 'undefined') {
       return

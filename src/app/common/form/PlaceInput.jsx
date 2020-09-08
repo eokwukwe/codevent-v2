@@ -56,7 +56,7 @@ export default function PlaceInput({ label, options, ...props }) {
               <List selection>
                 {suggestions.map(suggestion => (
                   <List.Item
-                    key={suggestion.id}
+                    key={suggestion.placeId}
                     {...getSuggestionItemProps(suggestion)}
                   >
                     <List.Header>{suggestion.formattedSuggestion.mainText}</List.Header>

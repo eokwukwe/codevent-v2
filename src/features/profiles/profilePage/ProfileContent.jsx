@@ -14,7 +14,11 @@ export default function ProfileContent({ profile, isCurrentUser }) {
     {
       menuItem: 'Photos',
       render: () => (
-        <PhotoTab breakPoint={breakPoint} isCurrentUser={isCurrentUser} profile={profile} />
+        <PhotoTab
+          breakPoint={breakPoint}
+          isCurrentUser={isCurrentUser}
+          profile={profile}
+        />
       )
     },
     { menuItem: 'Events', render: () => <Tab.Pane>User Events</Tab.Pane> },
@@ -27,7 +31,6 @@ export default function ProfileContent({ profile, isCurrentUser }) {
         <Tab activeIndex={1} menu={{ fluid: true, attached: 'top' }} panes={panes} />
       ) : (
         <Tab
-          activeIndex={1}
           menu={{ fluid: true, vertical: true }}
           menuPosition='right'
           panes={panes}

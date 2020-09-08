@@ -183,6 +183,15 @@ body {
   box-shadow: 0 1px 2px 0 rgba(34, 36, 38, .15);
 }
 
+.ui.button:disabled,
+.ui.buttons .disabled.button,
+.ui.disabled.active.button,
+.ui.disabled.button,
+.ui.disabled.button:hover {
+  cursor: not-allowed !important;
+  pointer-events: auto !important;
+}
+
 @media only screen and (max-width: 767px) {
   .ui.menu:not(.vertical) .item {
     font-size: small;

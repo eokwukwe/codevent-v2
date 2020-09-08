@@ -1,11 +1,57 @@
 import React, { useState } from 'react'
-import { Grid, Header, Button } from 'semantic-ui-react'
-import PhotoWidgetDropzone from './PhotoWidgetDropzone'
-import PhotoWidgetCropper from './PhotoWidgetCropper'
 
-export default function PhotoUploadWidget({ breakPoint }) {
+import cuid from 'cuid'
+import { toast } from 'react-toastify'
+import PhotoWidgetCropper from './PhotoWidgetCropper'
+import PhotoWidgetDropzone from './PhotoWidgetDropzone'
+import { Grid, Header, Button } from 'semantic-ui-react'
+
+import { getFileExtension } from '../utils/util'
+import { uploadToFirebaseStorage } from 'app/firestore/firebaseService'
+import { updateUserProfilePhoto } from 'app/firestore/firestoreService'
+
+export default function PhotoUploadWidget({ breakPoint, setEditMode }) {
   const [files, setFiles] = useState([])
   const [image, setImage] = useState(null)
+  const [loading, setLoading] = useState(false)
+
+  function handleUploadImage() {
+    setLoading(true)
+    
+    const filename = `${cuid()}.${getFileExtension(files[0].name)}`
+    const uploadTask = uploadToFirebaseStorage(image, filename)
+
+    uploadTask.on(
+      'state_changed',
+      snapshot => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+
+        console.log(`Upload is ${progress}% done`)
+      },
+      error => {
+        toast.error(error.message)
+      },
+      () => {
+        uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+          updateUserProfilePhoto(downloadURL, filename)
+            .then(() => {
+              setLoading(false)
+              handleCancelCrop()
+              setEditMode(false)
+            })
+            .catch(error => {
+              setLoading(false)
+              toast.error(error.message)
+            })
+        })
+      }
+    )
+  }
+
+  function handleCancelCrop() {
+    setFiles([])
+    setImage(null)
+  }
 
   return (
     <Grid stackable={breakPoint < 420} textAlign='center' verticalAlign='top'>
@@ -35,15 +81,15 @@ export default function PhotoUploadWidget({ breakPoint }) {
             />
             <Button.Group>
               <Button
-                // loading={loading}
-                // onClick={handleUploadImage}
+                loading={loading}
+                onClick={handleUploadImage}
                 style={{ width: 100 }}
                 positive
                 icon='check'
               />
               <Button
-                // disabled={loading}
-                // onClick={handleCancelCrop}
+                disabled={loading}
+                onClick={handleCancelCrop}
                 style={{ width: 100 }}
                 icon='close'
               />
