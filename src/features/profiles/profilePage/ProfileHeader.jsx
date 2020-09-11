@@ -1,25 +1,25 @@
 import React from 'react'
 import { Segment, Grid, Item, Header, Statistic, Divider, Reveal, Button } from 'semantic-ui-react'
 
-export default function ProfileHeader({ profile, isCurrentUser }) {
-  const breakpoint = window.innerWidth
+export default function ProfileHeader({ large, profile, isCurrentUser }) {
+  // const breakpoint = window.innerWidth
 
   return (
     <Segment>
-      <Grid>
-        <Grid.Column width={10}>
+      <Grid verticalAlign='middle'>
+        <Grid.Column width={large ? 12 : 10}>
           <Item.Group>
             <Item>
-              {breakpoint < 768 ? (
-                <Item.Image avatar size='mini' src={profile.photoURL || '/assets/user.png'} />
-              ) : (
-                <Item.Image avatar size='small' src={profile.photoURL || '/assets/user.png'} />
-              )}
+              <Item.Image
+                circular
+                size={large ? 'small' : 'tiny'}
+                src={profile.photoURL || '/assets/user.png'}
+              />
               <Item.Content verticalAlign='middle'>
                 <Header
                   as='h1'
-                  style={{ display: 'block', marginBottom: 10 }}
                   content={profile.displayName}
+                  style={{ display: 'block', textTransform: 'capitalize' }}
                 />
               </Item.Content>
             </Item>

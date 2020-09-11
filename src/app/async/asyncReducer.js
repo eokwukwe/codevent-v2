@@ -13,6 +13,7 @@ export function asyncActionFinish() {
 }
 
 export function asyncActionError(error) {
+  console.log('async error', error);
   return { type: ASYNC_ACTION_ERROR, payload: error }
 }
 

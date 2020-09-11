@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Grid } from 'semantic-ui-react'
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -11,25 +11,25 @@ import { listenToEventsFromFirestore } from 'app/firestore/firestoreService'
 
 export default function EventDashboard() {
   const dispatch = useDispatch()
+
+  const [predicate, setPredicate] = useState(
+    new Map([
+      ['startDate', new Date()],
+      ['filter', 'all']
+    ])
+  )
+
   const { events } = useSelector(state => state.events)
   const { loading } = useSelector(state => state.async)
 
   useFirestoreCollection({
-    query: () => listenToEventsFromFirestore(),
+    query: () => listenToEventsFromFirestore(predicate),
     data: events => dispatch(listenToEvents(events)),
-    deps: [dispatch]
+    deps: [dispatch, predicate]
   })
 
-  // function handleCreateEvent(event) {
-  //   setEvents([...events, event])
-  // }
-
-  // function handleUpdateEvent(updatedEvent) {
-  //   setEvents(events.map(evt => (evt.id === updatedEvent.id ? updatedEvent : evt)))
-  // }
-
-  function handleDeleteEvent(eventId) {
-    // setEvents(events.filter(evt => evt.id !== eventId))
+  function handleSetPredicate(key, value) {
+    setPredicate(new Map(predicate.set(key, value)))
   }
 
   return (
@@ -42,11 +42,15 @@ export default function EventDashboard() {
               <EventListItemPlaceholder />
             </>
           )}
-          <EventList events={events} deleteEvent={handleDeleteEvent} />
+          <EventList events={events} />
         </Grid.Column>
 
         <Grid.Column width={6}>
-          <EventFilters />
+          <EventFilters
+            loading={loading}
+            predicate={predicate}
+            setPredicate={handleSetPredicate}
+          />
         </Grid.Column>
       </Grid>
       {/* <Grid>

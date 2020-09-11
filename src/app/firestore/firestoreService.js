@@ -1,5 +1,4 @@
 import firebase from '../config/firebase'
-import cuid from 'cuid'
 
 const db = firebase.firestore()
 
@@ -19,8 +18,22 @@ export function dataFromSnapshot(snapshot) {
   return { ...data, id: snapshot.id }
 }
 
-export function listenToEventsFromFirestore() {
-  return db.collection('events').orderBy('date')
+export function listenToEventsFromFirestore(predicate) {
+  const user = firebase.auth().currentUser
+  const eventRef = db.collection('events').orderBy('date')
+
+  switch (predicate.get('filter')) {
+    case 'isGoing':
+      return eventRef
+        .where('attendeeIds', 'array-contains', user.uid)
+        .where('date', '>=', predicate.get('startDate'))
+    case 'isHost':
+      return eventRef
+        .where('hostUid', '==', user.uid)
+        .where('date', '>=', predicate.get('startDate'))
+    default:
+      return eventRef.where('date', '>=', predicate.get('startDate'))
+  }
 }
 
 export function listenToEventFromFirestore(eventId) {
@@ -172,5 +185,27 @@ export async function cancelUserAttendance(event) {
       })
   } catch (error) {
     throw error
+  }
+}
+
+export function getUserEventsQuery(activeTab, userUid) {
+  const today = new Date()
+  const eventsRef = db.collection('events')
+
+  switch (activeTab) {
+    case 1: // past events
+      return eventsRef
+        .where('attendeeIds', 'array-contains', userUid)
+        .where('date', '<=', today)
+        .orderBy('date', 'desc')
+    case 2: // Hosting events
+      return eventsRef
+        .where('hostUid', '==', userUid)
+        .orderBy('date')
+    default:
+      return eventsRef
+        .where('attendeeIds', 'array-contains', userUid)
+        .where('date', '>=', today)
+        .orderBy('date')
   }
 }

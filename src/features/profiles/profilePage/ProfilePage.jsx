@@ -9,7 +9,9 @@ import useFirestoreDoc from 'app/hooks/useFirestoreDoc'
 import { listenToSelectedUserProfile } from '../profileActions'
 import { getUserProfile } from 'app/firestore/firestoreService'
 
-export default function ProfilePage({ match }) {
+export default function ProfilePage({match}) {
+  const large = window.innerWidth > 520
+
   const dispatch = useDispatch()
   const { currentUser } = useSelector(state => state.auth)
   const { selectedUserProfile } = useSelector(state => state.profile)
@@ -28,6 +30,7 @@ export default function ProfilePage({ match }) {
     <Grid>
       <Grid.Column width={16}>
         <ProfileHeader
+          large={large}
           profile={selectedUserProfile}
           isCurrentUser={currentUser.uid === selectedUserProfile.id}
         />
