@@ -7,7 +7,7 @@ export default function ProfileHeader({ profile, isCurrentUser }) {
   return (
     <Segment>
       <Grid>
-        <Grid.Column width={12}>
+        <Grid.Column width={10}>
           <Item.Group>
             <Item>
               {breakpoint < 768 ? (

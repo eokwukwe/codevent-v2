@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
+
 import { format } from 'date-fns'
+import { toast } from 'react-toastify'
 import { Link } from 'react-router-dom'
 import { Segment, Image, Item, Header, Button } from 'semantic-ui-react'
+import { addUserAttendance, cancelUserAttendance } from 'app/firestore/firestoreService'
 
 const eventImageStyle = {
   filter: 'brightness(30%)'
@@ -17,13 +20,41 @@ const eventImageTextStyle = {
   color: 'white'
 }
 
-export default function EventDetailedHeader({ event }) {
+export default function EventDetailedHeader({ event, isGoing, isHost }) {
   const isMobile = window.innerWidth <= 767
+
+  const [loading, setLoading] = useState(false)
+
+  async function handleUserJoinEvent() {
+    setLoading(true)
+    try {
+      await addUserAttendance(event)
+    } catch (error) {
+      toast.error(error.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  async function handleUserLeaveEvent() {
+    setLoading(true)
+    try {
+      await cancelUserAttendance(event)
+    } catch (error) {
+      toast.error(error.message)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <Segment.Group>
       <Segment basic attached='top' style={{ padding: '0' }}>
-        <Image src={`/assets/categoryImages/${event.category}.jpg`} fluid style={eventImageStyle} />
+        <Image
+          fluid
+          style={eventImageStyle}
+          src={`/assets/categoryImages/${event.category}.jpg`}
+        />
 
         <Segment basic style={eventImageTextStyle}>
           <Item.Group>
@@ -40,7 +71,17 @@ export default function EventDetailedHeader({ event }) {
                 />
                 <p>{format(event.date, 'MMMM d, yyyy h:mm a')}</p>
                 <p>
-                  Hosted by <strong>{event.hostedBy}</strong>
+                  Hosted by {' '}
+                    <Link
+                    to={`/profile/${event.hostUid}`}
+                    style={{
+                      textTransform: 'capitalize',
+                      fontWeight: 'bold',
+                      color: 'teal'
+                    }}
+                    >
+                      {event.hostedBy}
+                    </Link>
                 </p>
               </Item.Content>
             </Item>
@@ -48,25 +89,45 @@ export default function EventDetailedHeader({ event }) {
         </Segment>
       </Segment>
 
-      <Segment attached='bottom'>
-        <Button compact size='mini'>
-          Cancel My Place
-        </Button>
+      <Segment clearing attached='bottom'>
+        {!isHost && (
+          <>
+            {isGoing ? (
+              <Button
+                compact
+                size='mini'
+                color='orange'
+                loading={loading}
+                onClick={handleUserLeaveEvent}
+              >
+                Cancel My Place
+              </Button>
+            ) : (
+              <Button
+              compact
+              size='mini'
+              color='teal'
+              loading={loading}
+              onClick={handleUserJoinEvent}
+              >
+                JOIN THIS EVENT
+              </Button>
+            )}
+          </>
+        )}
 
-        <Button compact size='mini' color='teal'>
-          JOIN THIS EVENT
-        </Button>
-
-        <Button
-          as={Link}
-          to={`/edit/${event.id}`}
-          compact
-          size='mini'
-          color='orange'
-          floated='right'
-        >
-          Edit Event
-        </Button>
+        {isHost && (
+          <Button
+            as={Link}
+            to={`/edit/${event.id}`}
+            compact
+            size='mini'
+            color='orange'
+            floated='right'
+          >
+            Edit Event
+          </Button>
+        )}
       </Segment>
     </Segment.Group>
   )

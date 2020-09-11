@@ -12,11 +12,26 @@ export default function EventListItem({ event }) {
       <Segment>
         <Item.Group unstackable>
           <Item>
-            <Item.Image size='tiny' circular src={event.hostPhotoURL} />
+            <Item.Image
+              size='tiny'
+              circular src={event.hostPhotoURL || '/assets/user.png'}
+            />
 
             <Item.Content verticalAlign='middle'>
               <Item.Header content={event.title} />
-              <Item.Description>Hosted by {event.hostedBy}</Item.Description>
+              <Item.Description>
+                Hosted by {' '}
+                <Link
+                  to={`/profile/${event.hostUid}`}
+                  style={{
+                    textTransform: 'capitalize',
+                    fontWeight: 'bold',
+                    color: 'teal'
+                  }}
+                >
+                  {event.hostedBy}
+                </Link>
+              </Item.Description>
               {event.isCancelled && (
                 <Label
                   style={{top: '-40px'}}

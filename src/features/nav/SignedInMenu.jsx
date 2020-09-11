@@ -22,18 +22,17 @@ export default function SignedInMenu() {
 
   return (
     <Menu.Item position='right'>
-      <Image avatar spaced='right' src={currentUserProfile.photoURL || '/assets/user.png'} />
+      <Image avatar spaced='right' src={currentUserProfile?.photoURL || '/assets/user.png'} />
       <Dropdown
         pointing='top right'
-        text={currentUserProfile.displayName.split(' ')[0]}
-        // text={displayName !== 'undefined' ? displayName : 'Loading...'}
+        text={currentUserProfile?.displayName.split(' ')[0]}
       >
         <Dropdown.Menu>
           <Dropdown.Item as={Link} to='/createEvent' text='Create Event' icon='plus' />
           <Dropdown.Item as={Link} to='/account' text='My Account' icon='settings' />
           <Dropdown.Item
             as={Link}
-            to={`/profile/${currentUserProfile.id}`}
+            to={`/profile/${currentUserProfile?.id}`}
             text='My Profile'
             icon='user'
           />

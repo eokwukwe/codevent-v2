@@ -29,7 +29,7 @@ function DesktopView({ children, getWidth, authenticated }) {
                   inverted
                   compact
                   positive
-                  content='Create Event'
+                  content='Create'
                 />
               </Menu.Item>
             </>

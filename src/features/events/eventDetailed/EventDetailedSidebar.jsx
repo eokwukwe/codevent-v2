@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Segment, List, Label, Image } from 'semantic-ui-react'
 
-export default function EventDetailedSidebar({ attendees }) {
+export default function EventDetailedSidebar({ attendees, hostUid }) {
   return (
     <>
       <Segment
@@ -21,15 +21,32 @@ export default function EventDetailedSidebar({ attendees }) {
           {attendees &&
             attendees.map(attendee => (
               <List.Item key={attendee.id} style={{ position: 'relative' }}>
-                {attendee.host && (
-                  <Label style={{ position: 'absolute' }} color='orange' ribbon='right'>
+                {hostUid === attendee.id && (
+                  <Label
+                    color='orange'
+                    ribbon='right'
+                    style={{position: 'absolute'}}
+                  >
                     Host
                   </Label>
                 )}
-                <Image size='mini' circular src={attendee.photoURL || '/assets/user.png'} />
+                <Image
+                  size='mini'
+                  circular
+                  src={attendee.photoURL || '/assets/user.png'} 
+                />
                 <List.Content>
                   <List.Header as='h4'>
-                    <Link to={`/profile/${attendee.id}`}>{attendee.displayName.split(' ')[0]}</Link>
+                    <Link
+                      to={`/profile/${attendee.id}`}
+                      style={{
+                      textTransform: 'capitalize',
+                      fontWeight: 'bold',
+                      color: 'teal'
+                    }}
+                    >
+                      {attendee.displayName.split(' ')[0]}
+                    </Link>
                   </List.Header>
                 </List.Content>
               </List.Item>

@@ -1,7 +1,7 @@
 import React from 'react'
 import * as Yup from 'yup'
 import { Formik, Form } from 'formik'
-import { useDispatch } from 'react-redux'
+import {useDispatch} from 'react-redux'
 import { Button, Label, Divider } from 'semantic-ui-react'
 
 import SocialLogin from './SocialLogin'

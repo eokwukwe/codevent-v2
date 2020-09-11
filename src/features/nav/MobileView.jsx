@@ -38,7 +38,7 @@ function MobileView({ children, getWidth, authenticated }) {
 
         <>
           <Menu.Item onClick={handleSidebarHide} as={NavLink} exact to='/people' name='People' />
-          <Menu.Item onClick={handleSidebarHide} as={Link} to='/createEvent' name='Create Event' />
+          <Menu.Item onClick={handleSidebarHide} as={Link} to='/createEvent' name='Create' />
         </>
       </Sidebar>
 
