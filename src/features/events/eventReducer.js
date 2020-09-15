@@ -1,7 +1,15 @@
-import { CREATE_EVENT, UPDATE_EVENT, DELETE_EVENT, FETCH_EVENTS } from './eventConstants'
+import {
+  CREATE_EVENT,
+  UPDATE_EVENT,
+  DELETE_EVENT,
+  FETCH_EVENTS,
+  CLEAR_COMMENTS,
+  LISTEN_TO_EVENT_CHAT
+} from './eventConstants'
 
 const initialState = {
-  events: []
+  events: [],
+  comments: []
 }
 
 export default function eventReducer(state = initialState, { type, payload }) {
@@ -25,6 +33,16 @@ export default function eventReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         events: [...state.events.filter(event => event.id !== payload)]
+      }
+    case LISTEN_TO_EVENT_CHAT:
+      return {
+        ...state,
+        comments: payload
+      }
+    case CLEAR_COMMENTS:
+      return {
+        ...state,
+        comments: []
       }
     default:
       return state

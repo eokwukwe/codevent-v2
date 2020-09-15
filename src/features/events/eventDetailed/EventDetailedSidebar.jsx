@@ -2,6 +2,8 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Segment, List, Label, Image } from 'semantic-ui-react'
 
+import {displayName} from 'app/common/utils/util'
+
 export default function EventDetailedSidebar({ attendees, hostUid }) {
   return (
     <>
@@ -40,12 +42,10 @@ export default function EventDetailedSidebar({ attendees, hostUid }) {
                     <Link
                       to={`/profile/${attendee.id}`}
                       style={{
-                      textTransform: 'capitalize',
                       fontWeight: 'bold',
-                      color: 'teal'
                     }}
                     >
-                      {attendee.displayName.split(' ')[0]}
+                      {displayName(attendee.displayName, 'teal')}
                     </Link>
                   </List.Header>
                 </List.Content>
