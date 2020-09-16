@@ -1,4 +1,8 @@
 import {
+  SET_FOLLOW_USER,
+  SET_UNFOLLOW_USER,
+  LISTEN_TO_FOLLOWERS,
+  LISTEN_TO_FOLLOWINGS,
   LISTEN_TO_USER_EVENTS,
   LISTEN_TO_USER_PHOTOS,
   LISTEN_TO_CURRENT_USER_PROFILE,
@@ -30,5 +34,31 @@ export function listenToUserEvents(events) {
   return {
     type: LISTEN_TO_USER_EVENTS,
     payload: events
+  }
+}
+
+export function listenToFollowers(followers) {
+  return {
+    type: LISTEN_TO_FOLLOWERS,
+    payload: followers
+  }
+}
+
+export function listenToFollowings(followings) {
+  return {
+    type: LISTEN_TO_FOLLOWINGS,
+    payload: followings
+  }
+}
+
+export function setFollowUser() {
+  return {
+    type: SET_FOLLOW_USER
+  }
+}
+
+export function setUnfollowUser() {
+  return {
+    type: SET_UNFOLLOW_USER
   }
 }

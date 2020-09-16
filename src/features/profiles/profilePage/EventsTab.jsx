@@ -44,7 +44,7 @@ export default function EventsTab({ profile, breakPoint }) {
             menu={{ secondary: true, pointing: true }}
             onTabChange={(e, data) => setActiveTab(data.activeIndex)}
           />
-          <Card.Group itemsPerRow={xtraSmall ? 2 : small ? 3 : 4} style={{ marginTop: 10 }}>
+          <Card.Group itemsPerRow={xtraSmall ? 2 : small ? 3 : 4}>
             {profileEvents.map(evt => (
               <Card as={Link} to={`/events/${evt.id}`} key={evt.id}>
                 <Image

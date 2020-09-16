@@ -15,7 +15,10 @@ export function dataFromSnapshot(snapshot) {
     }
   }
 
-  return { ...data, id: snapshot.id }
+  return {
+    ...data,
+    id: snapshot.id
+  }
 }
 
 export function listenToEventsFromFirestore(predicate) {
@@ -151,7 +154,12 @@ export async function setMainPhoto(photo) {
 export function deletePhotoFromCollection(photoId) {
   const userId = firebase.auth().currentUser.uid
 
-  return db.collection('users').doc(userId).collection('photos').doc(photoId).delete()
+  return db
+    .collection('users')
+    .doc(userId)
+    .collection('photos')
+    .doc(photoId)
+    .delete()
 }
 
 export function addUserAttendance(event) {
@@ -181,7 +189,9 @@ export async function cancelUserAttendance(event) {
       .doc(event.id)
       .update({
         attendeeIds: firebase.firestore.FieldValue.arrayRemove(user.uid),
-        attendees: eventDoc.data().attendees.filter(attendee => attendee.id !== user.uid)
+        attendees: eventDoc
+          .data()
+          .attendees.filter(attendee => attendee.id !== user.uid)
       })
   } catch (error) {
     throw error
@@ -199,13 +209,121 @@ export function getUserEventsQuery(activeTab, userUid) {
         .where('date', '<=', today)
         .orderBy('date', 'desc')
     case 2: // Hosting events
-      return eventsRef
-        .where('hostUid', '==', userUid)
-        .orderBy('date')
+      return eventsRef.where('hostUid', '==', userUid).orderBy('date')
     default:
       return eventsRef
         .where('attendeeIds', 'array-contains', userUid)
         .where('date', '>=', today)
         .orderBy('date')
   }
+}
+
+export async function followUser(profile) {
+  const user = firebase.auth().currentUser
+  const batch = db.batch()
+
+  try {
+    batch.set(
+      db
+        .collection('following')
+        .doc(user.uid)
+        .collection('userFollowing')
+        .doc(profile.id),
+      {
+        displayName: profile.displayName,
+        photoURL: profile.photoURL,
+        uid: profile.id
+      }
+    )
+
+    batch.set(
+      db
+        .collection('following')
+        .doc(profile.id)
+        .collection('userFollowers')
+        .doc(user.uid),
+      {
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+        uid: user.uid
+      }
+    )
+
+    batch.update(db.collection('users').doc(user.uid), {
+      followingCount: firebase.firestore.FieldValue.increment(1)
+    })
+
+    batch.update(db.collection('users').doc(profile.id), {
+      followerCount: firebase.firestore.FieldValue.increment(1)
+    })
+
+    return await batch.commit()
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function unfollowUser(profile) {
+  const user = firebase.auth().currentUser
+  const batch = db.batch()
+
+  try {
+    batch.delete(
+      db
+        .collection('following')
+        .doc(user.uid)
+        .collection('userFollowing')
+        .doc(profile.id)
+    )
+
+    batch.delete(
+      db
+        .collection('following')
+        .doc(profile.id)
+        .collection('userFollowers')
+        .doc(user.uid)
+    )
+
+    batch.update(db.collection('users').doc(user.uid), {
+      followingCount: firebase.firestore.FieldValue.increment(-1)
+    })
+
+    batch.update(db.collection('users').doc(profile.id), {
+      followerCount: firebase.firestore.FieldValue.increment(-1)
+    })
+
+    return await batch.commit()
+  } catch (error) {
+    throw error
+  }
+}
+
+export function getFollowersCollection(profileId) {
+  return db.collection('following').doc(profileId).collection('userFollowers')
+}
+
+export function getFollowingCollection(profileId) {
+  return db.collection('following').doc(profileId).collection('userFollowing')
+}
+
+export function getFollowingDoc(profileId) {
+  const userUid = firebase.auth().currentUser.uid
+
+  return db
+    .collection('following')
+    .doc(userUid)
+    .collection('userFollowing')
+    .doc(profileId)
+    .get()
+}
+
+export function getFollowerDoc(profileId) {
+  const userUid = firebase.auth().currentUser.uid
+
+  return db
+    .collection('following')
+    .doc(profileId)
+    .collection('userFollowers')
+    .doc(userUid)
+    .get()
 }

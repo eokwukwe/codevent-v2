@@ -5,7 +5,6 @@ import { Link, useHistory } from 'react-router-dom'
 import { Menu, Image, Dropdown } from 'semantic-ui-react'
 
 import { signOutFirebase } from 'app/firestore/firebaseService'
-import {displayName} from 'app/common/utils/util'
 
 export default function SignedInMenu() {
   const history = useHistory()
@@ -23,14 +22,29 @@ export default function SignedInMenu() {
 
   return (
     <Menu.Item position='right'>
-      <Image avatar spaced='right' src={currentUserProfile?.photoURL || '/assets/user.png'} />
+      <Image
+        avatar
+        spaced='right'
+        src={currentUserProfile?.photoURL || '/assets/user.png'}
+      />
       <Dropdown
         pointing='top right'
-        text={displayName(currentUserProfile?.displayName)}
+        text={currentUserProfile?.displayName.split(' ')[0]}
+        style={{ textTransform: 'capitalize' }}
       >
         <Dropdown.Menu>
-          <Dropdown.Item as={Link} to='/createEvent' text='Create Event' icon='plus' />
-          <Dropdown.Item as={Link} to='/account' text='My Account' icon='settings' />
+          <Dropdown.Item
+            as={Link}
+            to='/createEvent'
+            text='Create Event'
+            icon='plus'
+          />
+          <Dropdown.Item
+            as={Link}
+            to='/account'
+            text='My Account'
+            icon='settings'
+          />
           <Dropdown.Item
             as={Link}
             to={`/profile/${currentUserProfile?.id}`}
