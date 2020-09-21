@@ -46,12 +46,21 @@ export default function EventDashboard() {
         </Grid.Column>
 
         <Grid.Column width={6}>
-          <EventFilters
-            loading={loading}
-            predicate={predicate}
-            setPredicate={handleSetPredicate}
-          />
+            <EventFilters
+              loading={loading}
+              predicate={predicate}
+              setPredicate={handleSetPredicate}
+            />
         </Grid.Column>
+        {/* <Grid.Column width={6}>
+          <div className='ui fixed top sticky' style={{top: '75px'}}>
+            <EventFilters
+              loading={loading}
+              predicate={predicate}
+              setPredicate={handleSetPredicate}
+            />
+          </div>
+        </Grid.Column> */}
       </Grid>
       {/* <Grid>
         <Grid.Column mobile={16} tablet={10} computer={10}>

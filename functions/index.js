@@ -1,15 +1,23 @@
-const functions = require('firebase-functions')
+const functions = require('firebase-functions');
 const admin = require('firebase-admin')
 
-admin.initializeApp(functions.config().firebase)
+admin.initializeApp()
 
 const db = admin.firestore()
+
+// Create and Deploy Your First Cloud Functions
+// https://firebase.google.com/docs/functions/write-firebase-functions
+
+exports.helloWorld = functions.https.onRequest((request, response) => {
+  functions.logger.info("Hello logs!", {structuredData: true});
+  response.send("Hello from Firebase!");
+});
 
 exports.addFollowing = functions.firestore
   .document('following/{userUid}/userFollowing/{profileId}')
   .onCreate(async (snapshot, context) => {
     const following = snapshot.data()
-    console.log({ following })
+    console.log('>>>>>>>>>>',{ following })
 
     try {
       const userDoc = await db
